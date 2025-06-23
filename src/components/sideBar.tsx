@@ -1,24 +1,41 @@
 import { Plus, Search, Calendar1, CalendarDays, Sidebar } from "lucide-react";
 import { SideHeadCompo } from "./sideBarCompo";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { MainContext } from "./context";
 export default function SideBar() {
   const [open, SetOpen] = useState(true);
+  const { openTask, setOpenTask } = useContext(MainContext);
+  useEffect(() => {
+    function handleSize() {
+      window.addEventListener("resize", () => {
+        if (window.innerWidth < 768) {
+          SetOpen(false);
+        } else {
+          SetOpen(true);
+        }
+      });
+    }
+    return handleSize();
+  }, []);
 
   return (
-    <>
+    <div className="min-h-screen fixed top-0 left-0 ">
       {
-        <Sidebar
-          color="white"
-          onClick={() => {
-            SetOpen(true);
-          }}
-          size={42}
-          className={`${open === true ? "hidden" : "block"} pt-5`}
-        ></Sidebar>
+        <div>
+          {" "}
+          <Sidebar
+            color="white"
+            onClick={() => {
+              SetOpen(true);
+            }}
+            size={42}
+            className={`${open === true ? "hidden" : "block"} pt-5`}
+          ></Sidebar>
+        </div>
       }
 
-      <aside
-        className={` flex flex-col shadow-lg fixed left-0 top-0 gap-2 w-64 min-h-screen transform transition-all duration-300 ease-in-out bg-zinc-800 pt-5 px-3  max-w-[360px] ${
+      <div
+        className={` flex flex-col shadow-lg  fixed     left-0 top-0 gap-2 w-64 min-h-screen transform transition-all duration-300 ease-in-out bg-zinc-800 pt-5 px-3  max-w-[360px] ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -31,7 +48,12 @@ export default function SideBar() {
             }}
           />
         </div>
-        <div className="flex flex-col gap-3">
+        <div
+          className="flex flex-col gap-3"
+          onClick={() => {
+            setOpenTask(true);
+          }}
+        >
           <SideHeadCompo
             heading="New Task"
             Icon={
@@ -73,7 +95,7 @@ export default function SideBar() {
             fontWidth="medium"
           />
         </div>
-      </aside>
-    </>
+      </div>
+    </div>
   );
 }

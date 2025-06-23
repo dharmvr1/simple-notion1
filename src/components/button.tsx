@@ -12,7 +12,7 @@ export default function Button(prop: ButtonProp) {
         prop.size === "large"
           ? "text-2xl font-medium px-3 py-2"
           : "text-xl font-medium px-2 py-1"
-      } bg-blue-500 text-white w-full rounded-xl`}
+      } bg-blue-500 text-white  rounded-xl`}
     >
       {prop.heading}
     </button>
